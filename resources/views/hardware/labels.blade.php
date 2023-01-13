@@ -42,13 +42,22 @@ $qr_size = ($settings->alt_barcode_enabled=='1') && ($settings->alt_barcode!='')
         display: inline-flex;
         padding-right: .15in;
     }
-    img.qr_img {
+    /* img.qr_img {
 
         width: 120.79%;
         height: 120.79%;
         margin-top: -6.9%;
         margin-left: -6.9%;
         padding-bottom: .04in;
+    } */
+
+        img.qr_img {
+
+    width: 80%;
+    height: 80%;
+    margin-top: -6.9%;
+    margin-left: -6.9%;
+    padding-bottom: .04in;
     }
     img.barcode {
         display:block;
@@ -107,7 +116,29 @@ $qr_size = ($settings->alt_barcode_enabled=='1') && ($settings->alt_barcode!='')
     @endif
 </style>
 
+
+
+
+<?php
+$assigned_flag[]='';
+$assigned[]='';
+foreach($users as $row){
+    if(array_key_exists('assigned', $row)){
+        if($row['assigned']['username'] != ''){
+                $assigned[]=$row['assigned']['username'];
+        }else{
+                $assigned[]='';
+        }
+        $assigned_flag[]=1;
+    }else{
+        $assigned_flag[]=0;
+        $assigned[]='';
+    }
+}
+?>
+
 @foreach ($assets as $asset)
+
     <?php $count++; ?>
     <div class="label">
 
@@ -146,12 +177,19 @@ $qr_size = ($settings->alt_barcode_enabled=='1') && ($settings->alt_barcode!='')
             @endif
             @if (($settings->labels_display_serial=='1') && ($asset->serial!=''))
                 <div class="pull-left">
-                    S: {{ $asset->serial }}
+                    S: {{ $asset->serial }}                    
                 </div>
             @endif
             @if (($settings->labels_display_model=='1') && ($asset->model->name!=''))
                 <div class="pull-left">
                     M: {{ $asset->model->name }} {{ $asset->model->model_number }}
+                </div>
+            @endif
+
+
+            @if (($settings->labels_display_user=='1') && ($assigned_flag[$count-1]==1))
+                <div class="pull-left">
+                    N: <?php echo $assigned[$count-1] ;?>
                 </div>
             @endif
 
@@ -162,10 +200,7 @@ $qr_size = ($settings->alt_barcode_enabled=='1') && ($settings->alt_barcode!='')
                 <img src="{{ config('app.url') }}/hardware/{{ $asset->id }}/barcode" class="barcode">
             </div>
         @endif
-
-
-
-    </div>
+   </div>
 
     @if ($count % $settings->labels_per_page == 0)
         <div class="page-break"></div>

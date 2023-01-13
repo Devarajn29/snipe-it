@@ -41,12 +41,14 @@ class BulkAssetsController extends Controller
 
         $asset_ids = array_values(array_unique($request->input('ids')));
 
+        $assets_to=Asset::with('assignedTo', 'location')->find($asset_ids);
         if ($request->filled('bulk_actions')) {
             switch ($request->input('bulk_actions')) {
                 case 'labels':
                     return view('hardware/labels')
                         ->with('assets', Asset::find($asset_ids))
                         ->with('settings', Setting::getSettings())
+                        ->with('users', json_decode($assets_to,true))
                         ->with('bulkedit', true)
                         ->with('count', 0);
                 case 'delete':

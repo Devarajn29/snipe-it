@@ -38,6 +38,9 @@
                 <div class="box-body">
 
 
+                <!-- <h1>deva</h1> -->
+
+
                     <div class="col-md-11 col-md-offset-1">
 
                         <div class="form-group {{ $errors->has('labels_per_page') ? 'error' : '' }}">
@@ -188,6 +191,10 @@
                                         {{ Form::checkbox('labels_display_company_name', '1', old('labels_display_company_name',   $setting->labels_display_company_name),['class' => 'minimal', 'aria-label'=>'labels_display_company_name']) }}
                                         {{ trans('admin/companies/table.name') }}
 				    </label>
+                    <label for="labels_display_user">
+                                        {{ Form::checkbox('labels_display_user', '1', old('labels_display_user',   $setting->labels_display_user),['class' => 'minimal', 'aria-label'=>'labels_display_user']) }}
+                                        {{ trans('admin/hardware/form.user') }}
+                                    </label>
 
                                 </div> <!--/.CHECKBOX-->
                             </div> <!--/.col-md-9-->
