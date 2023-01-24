@@ -120,8 +120,8 @@ $qr_size = ($settings->alt_barcode_enabled=='1') && ($settings->alt_barcode!='')
 
 
 <?php
-$assigned_flag[]='';
-$assigned[]='';
+$assigned_flag=array();
+$assigned=array();
 foreach($users as $row){
     if(array_key_exists('assigned', $row)){
         if($row['assigned']['username'] != ''){
