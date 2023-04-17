@@ -10,6 +10,7 @@
 <?php
 $settings->labels_width = $settings->labels_width - $settings->labels_display_sgutter;
 $settings->labels_height = $settings->labels_height - $settings->labels_display_bgutter;
+
 // Leave space on bottom for 1D barcode if necessary
 $qr_size = ($settings->alt_barcode_enabled=='1') && ($settings->alt_barcode!='') ? $settings->labels_height - .3 : $settings->labels_height - 0.1;
 ?>
@@ -24,7 +25,8 @@ $qr_size = ($settings->alt_barcode_enabled=='1') && ($settings->alt_barcode!='')
     }
     .label {
         width: {{ $settings->labels_width }}in;
-        height: {{ $settings->labels_height }}in;
+        /* height: {{ $settings->labels_height }}in; */
+        height: 0.83in;
         padding: 0in;
         margin-right: {{ $settings->labels_display_sgutter }}in; /* the gutter */
         margin-bottom: {{ $settings->labels_display_bgutter }}in;
@@ -40,7 +42,7 @@ $qr_size = ($settings->alt_barcode_enabled=='1') && ($settings->alt_barcode!='')
 
         float: left;
         display: inline-flex;
-        padding-right: .15in;
+        /* padding-right: .15in; */
     }
     /* img.qr_img {
 
@@ -53,11 +55,18 @@ $qr_size = ($settings->alt_barcode_enabled=='1') && ($settings->alt_barcode!='')
 
         img.qr_img {
 
-    width: 80%;
-    height: 80%;
-    margin-top: -6.9%;
-    margin-left: -6.9%;
-    padding-bottom: .04in;
+            /* width: 100%;
+    height: 100%;
+    margin-top:  -4.1%;
+    margin-left: 0;
+    padding-bottom: 0.04in; */
+
+    width: 100%;
+    height: 100%;
+    /* margin-top: -4.1%; */
+    /* margin-left: 0; */
+    padding-bottom: 0.04in;
+    /* padding: 0.04in; */
     }
     img.barcode {
         display:block;
@@ -79,10 +88,11 @@ $qr_size = ($settings->alt_barcode_enabled=='1') && ($settings->alt_barcode!='')
         font-family: arial, helvetica, sans-serif;
         font-size: {{$settings->labels_fontsize}}pt;
         padding-right: .0001in;
-        overflow: hidden !important;
-        display: inline;
+        /* overflow: hidden !important;
+        display: inline; */
         word-wrap: break-word;
         word-break: break-all;
+        padding: 0.04in;
     }
     div.barcode_container {
 
@@ -122,14 +132,20 @@ $qr_size = ($settings->alt_barcode_enabled=='1') && ($settings->alt_barcode!='')
 <?php
 $assigned_flag=array();
 $assigned=array();
+
 foreach($users as $row){
+
+
     if(array_key_exists('assigned', $row)){
-        if($row['assigned']['username'] != ''){
-                $assigned[]=$row['assigned']['username'];
-        }else{
-                $assigned[]='';
+        if(array_key_exists('username', $row['assigned'])){
+            if($row['assigned']['username'] != ''){
+                    $assigned[]=$row['assigned']['username'];
+            }else{
+                    $assigned[]='';
+            }
+            $assigned_flag[]=1;
+
         }
-        $assigned_flag[]=1;
     }else{
         $assigned_flag[]=0;
         $assigned[]='';
